@@ -4,24 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اتم - مدرسه مفید یادگار امام</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ============================================================
+                   RESET & BASE
+                ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --green: #2ecc71;
+            --green-dark: #1a7a42;
+            --green-glow: rgba(46, 204, 113, 0.15);
+            --red: #e74c3c;
+            --red-dark: #922b21;
+            --red-glow: rgba(231, 76, 60, 0.12);
+            --blue: #3498db;
+            --blue-dark: #1a5276;
+            --blue-glow: rgba(52, 152, 219, 0.12);
+            --bg: #0b0f1a;
+            --bg-card: rgba(15, 25, 40, 0.75);
+            --text: #d4e6f1;
+            --text-muted: #7f8c9b;
+            --border: rgba(52, 152, 219, 0.08);
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0e17;
-            color: #e0f0ff;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            line-height: 1.7;
+            font-weight: 400;
         }
 
-        /* ===== FLOATING ATOMS BACKGROUND ===== */
+        /* ============================================================
+                   SCROLLBAR
+                ============================================================ */
+        ::-webkit-scrollbar {
+            width: 6px;
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--green), var(--blue));
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--green-dark), var(--blue-dark));
+        }
+
+        /* ============================================================
+                   FLOATING ATOMS BACKGROUND
+                ============================================================ */
         .atoms-bg {
             position: fixed;
             top: 0;
@@ -36,81 +83,141 @@
         .atom {
             position: absolute;
             border-radius: 50%;
-            opacity: 0.08;
+            opacity: 0.06;
             animation: floatAtom linear infinite;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .atom:hover {
+            opacity: 0.12;
         }
 
         .atom .nucleus {
-            width: 25%;
-            height: 25%;
-            background: radial-gradient(circle, #6cf, #1a3a5a);
+            width: 22%;
+            height: 22%;
             border-radius: 50%;
-            box-shadow: 0 0 30px #4af;
+            box-shadow: 0 0 40px currentColor;
         }
 
         .atom .orbit {
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 1px solid rgba(100, 200, 255, 0.1);
             border-radius: 50%;
-            animation: spinOrbit 8s linear infinite;
+            animation: spinOrbit linear infinite;
         }
 
-        .atom .orbit:nth-child(2) {
-            width: 70%;
-            height: 70%;
-            animation-duration: 12s;
-            border-color: rgba(200, 100, 255, 0.1);
+        .atom .orbit-1 {
+            width: 85%;
+            height: 85%;
+            animation-duration: 10s;
+        }
+        .atom .orbit-2 {
+            width: 60%;
+            height: 60%;
+            animation-duration: 14s;
+            animation-direction: reverse;
+        }
+        .atom .orbit-3 {
+            width: 35%;
+            height: 35%;
+            animation-duration: 7s;
         }
 
-        .atom .orbit:nth-child(3) {
-            width: 40%;
-            height: 40%;
-            animation-duration: 6s;
-            border-color: rgba(100, 255, 200, 0.1);
+        /* Atom color variations */
+        .atom-green .nucleus {
+            background: radial-gradient(circle, #58d68d, var(--green-dark));
+            color: var(--green);
+        }
+        .atom-green .orbit {
+            border: 1px solid rgba(46, 204, 113, 0.12);
+        }
+        .atom-green .orbit-2 {
+            border-color: rgba(46, 204, 113, 0.08);
+        }
+        .atom-green .orbit-3 {
+            border-color: rgba(46, 204, 113, 0.06);
+        }
+
+        .atom-red .nucleus {
+            background: radial-gradient(circle, #ec7063, var(--red-dark));
+            color: var(--red);
+        }
+        .atom-red .orbit {
+            border: 1px solid rgba(231, 76, 60, 0.12);
+        }
+        .atom-red .orbit-2 {
+            border-color: rgba(231, 76, 60, 0.08);
+        }
+        .atom-red .orbit-3 {
+            border-color: rgba(231, 76, 60, 0.06);
+        }
+
+        .atom-blue .nucleus {
+            background: radial-gradient(circle, #5dade2, var(--blue-dark));
+            color: var(--blue);
+        }
+        .atom-blue .orbit {
+            border: 1px solid rgba(52, 152, 219, 0.12);
+        }
+        .atom-blue .orbit-2 {
+            border-color: rgba(52, 152, 219, 0.08);
+        }
+        .atom-blue .orbit-3 {
+            border-color: rgba(52, 152, 219, 0.06);
         }
 
         @keyframes floatAtom {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(40px, -60px) rotate(90deg); }
-            50% { transform: translate(-30px, 80px) rotate(180deg); }
-            75% { transform: translate(50px, 40px) rotate(270deg); }
+            0%   { transform: translate(0, 0) rotate(0deg); }
+            20%  { transform: translate(45px, -55px) rotate(72deg); }
+            40%  { transform: translate(-35px, 75px) rotate(144deg); }
+            60%  { transform: translate(55px, 35px) rotate(216deg); }
+            80%  { transform: translate(-45px, -45px) rotate(288deg); }
             100% { transform: translate(0, 0) rotate(360deg); }
         }
 
         @keyframes spinOrbit {
-            0% { transform: rotate(0deg); }
+            0%   { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .atom-0 { width: 200px; height: 200px; top: 5%; left: 2%; animation-duration: 22s; }
-        .atom-1 { width: 140px; height: 140px; bottom: 10%; right: 3%; animation-duration: 28s; animation-delay: -5s; }
-        .atom-2 { width: 250px; height: 250px; top: 40%; left: 70%; animation-duration: 30s; animation-delay: -10s; }
-        .atom-3 { width: 100px; height: 100px; top: 70%; left: 15%; animation-duration: 20s; animation-delay: -3s; }
-        .atom-4 { width: 180px; height: 180px; top: 15%; left: 45%; animation-duration: 26s; animation-delay: -7s; }
-        .atom-5 { width: 120px; height: 120px; bottom: 25%; right: 25%; animation-duration: 24s; animation-delay: -12s; }
-        .atom-6 { width: 300px; height: 300px; top: 50%; left: -5%; animation-duration: 35s; animation-delay: -2s; opacity: 0.05; }
-        .atom-7 { width: 160px; height: 160px; bottom: 5%; right: 50%; animation-duration: 18s; animation-delay: -8s; }
-        .atom-8 { width: 220px; height: 220px; top: 10%; right: 20%; animation-duration: 25s; animation-delay: -15s; }
-        .atom-9 { width: 130px; height: 130px; bottom: 30%; left: 60%; animation-duration: 21s; animation-delay: -4s; }
-        .atom-10 { width: 170px; height: 170px; top: 60%; right: 5%; animation-duration: 32s; animation-delay: -9s; }
-        .atom-11 { width: 110px; height: 110px; top: 25%; right: 40%; animation-duration: 19s; animation-delay: -6s; }
+        /* Atom positions */
+        .atom-0 { width: 180px; height: 180px; top: 3%; left: 3%; animation-duration: 24s; }
+        .atom-1 { width: 130px; height: 130px; bottom: 8%; right: 2%; animation-duration: 30s; animation-delay: -6s; }
+        .atom-2 { width: 220px; height: 220px; top: 35%; left: 72%; animation-duration: 32s; animation-delay: -11s; }
+        .atom-3 { width: 90px; height: 90px; top: 72%; left: 10%; animation-duration: 22s; animation-delay: -4s; }
+        .atom-4 { width: 160px; height: 160px; top: 12%; left: 42%; animation-duration: 28s; animation-delay: -8s; }
+        .atom-5 { width: 110px; height: 110px; bottom: 22%; right: 22%; animation-duration: 26s; animation-delay: -13s; }
+        .atom-6 { width: 260px; height: 260px; top: 48%; left: -4%; animation-duration: 38s; animation-delay: -3s; opacity: 0.04; }
+        .atom-7 { width: 150px; height: 150px; bottom: 3%; right: 48%; animation-duration: 20s; animation-delay: -9s; }
+        .atom-8 { width: 200px; height: 200px; top: 8%; right: 18%; animation-duration: 27s; animation-delay: -16s; }
+        .atom-9 { width: 120px; height: 120px; bottom: 32%; left: 58%; animation-duration: 23s; animation-delay: -5s; }
+        .atom-10 { width: 160px; height: 160px; top: 58%; right: 4%; animation-duration: 34s; animation-delay: -10s; }
+        .atom-11 { width: 100px; height: 100px; top: 22%; right: 38%; animation-duration: 21s; animation-delay: -7s; }
 
-        /* ===== NAVIGATION ===== */
+        /* ============================================================
+                   NAVIGATION
+                ============================================================ */
         .main-nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 100;
-            background: rgba(10, 14, 23, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(100, 200, 255, 0.1);
+            z-index: 1000;
+            background: rgba(11, 15, 26, 0.88);
+            backdrop-filter: blur(16px) saturate(1.2);
+            -webkit-backdrop-filter: blur(16px) saturate(1.2);
+            border-bottom: 1px solid rgba(52, 152, 219, 0.06);
             padding: 0 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .main-nav.scrolled {
+            background: rgba(11, 15, 26, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         .nav-container {
@@ -119,885 +226,790 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 70px;
+            height: 72px;
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
+            gap: 12px;
+            font-size: 1.4rem;
             font-weight: 900;
             cursor: pointer;
+            text-decoration: none;
+            user-select: none;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.02);
         }
 
         .brand-icon {
-            font-size: 2rem;
-            color: #6cf;
+            font-size: 1.9rem;
+            color: var(--blue);
+            filter: drop-shadow(0 0 12px rgba(52, 152, 219, 0.2));
+            transition: all 0.4s ease;
+        }
+
+        .nav-brand:hover .brand-icon {
+            transform: rotate(25deg) scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(52, 152, 219, 0.3));
         }
 
         .brand-text {
-            background: linear-gradient(135deg, #8cf, #6af, #c8f);
+            background: linear-gradient(135deg, #58d68d, #5dade2, #ec7063);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-text span {
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 0.5rem;
         }
 
         .nav-menu a {
-            color: #8ab;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
             transition: all 0.3s ease;
-            padding: 0.4rem 0;
-            border-bottom: 2px solid transparent;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             cursor: pointer;
+            position: relative;
         }
 
-        .nav-menu a:hover,
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--green), var(--blue), var(--red));
+            transition: all 0.4s ease;
+            transform: translateX(-50%);
+            border-radius: 10px;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 60%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--text);
+            background: rgba(52, 152, 219, 0.04);
+        }
+
         .nav-menu a.active {
-            color: #fff;
-            border-bottom-color: #6cf;
+            color: var(--text);
+            background: rgba(52, 152, 219, 0.06);
         }
 
         .nav-menu .nav-icon {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
         }
 
-        /* ===== MAIN CONTENT ===== */
+        .nav-menu a:hover .nav-icon,
+        .nav-menu a.active .nav-icon {
+            opacity: 1;
+        }
+
+        /* ============================================================
+                   MAIN CONTENT
+                ============================================================ */
         .main-content {
-            margin-top: 70px;
-            padding: 2rem;
-            min-height: calc(100vh - 70px);
+            margin-top: 72px;
+            padding: 2.5rem 2rem;
+            min-height: calc(100vh - 72px);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
         }
 
-        /* ===== PAGES ===== */
+        /* ============================================================
+                   PAGES
+                ============================================================ */
         .page {
             display: none;
             position: relative;
             z-index: 1;
-            background: rgba(10, 20, 35, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(100, 200, 255, 0.2);
-            border-radius: 48px;
-            padding: 3rem 4rem;
-            max-width: 1000px;
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 3.5rem 4rem;
+            max-width: 1050px;
             width: 100%;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-            text-align: center;
-            transition: all 0.3s ease;
-            animation: fadeIn 0.4s ease;
+            box-shadow: 
+                0 30px 80px var(--shadow),
+                0 0 60px rgba(52, 152, 219, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            animation: pageFadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.4s ease;
         }
 
         .page.active {
             display: block;
         }
 
+        @keyframes pageFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .page:hover {
-            border-color: rgba(100, 200, 255, 0.4);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 80px rgba(50, 150, 255, 0.1);
+            border-color: rgba(52, 152, 219, 0.12);
+            box-shadow: 
+                0 30px 80px var(--shadow),
+                0 0 80px rgba(52, 152, 219, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ===== HOME PAGE ===== */
-        .header {
+        /* ============================================================
+                   HOME PAGE
+                ============================================================ */
+        .home-header {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 16px;
-            margin-bottom: 1.5rem;
+            gap: 18px;
+            margin-bottom: 1.8rem;
             flex-wrap: wrap;
         }
 
-        .header-icon {
-            font-size: 3rem;
+        .home-header .header-icon {
+            font-size: 3.2rem;
             line-height: 1;
-            filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.3));
-            color: #8cf;
+            color: var(--blue);
+            filter: drop-shadow(0 0 30px rgba(52, 152, 219, 0.15));
+            animation: pulseGlow 3s ease-in-out infinite;
         }
 
-        .header h1 {
-            font-size: 2.4rem;
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(52, 152, 219, 0.1)); }
+            50% { filter: drop-shadow(0 0 40px rgba(52, 152, 219, 0.2)); }
+        }
+
+        .home-header h1 {
+            font-size: 2.6rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #8cf, #6af, #c8f);
+            background: linear-gradient(135deg, #58d68d, #5dade2, #ec7063);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: 1px;
         }
 
-        .header .sub {
-            font-size: 1rem;
-            color: #7aa;
-            background: rgba(100, 200, 255, 0.08);
-            padding: 0.3rem 1.2rem;
+        .home-header .sub-badge {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            background: rgba(52, 152, 219, 0.06);
+            padding: 0.3rem 1.4rem;
             border-radius: 60px;
-            border: 1px solid rgba(100, 200, 255, 0.1);
+            border: 1px solid rgba(52, 152, 219, 0.06);
+            font-weight: 400;
+            letter-spacing: 0.3px;
         }
 
+        /* Badges */
         .badge-row {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 16px;
             flex-wrap: wrap;
-            margin-bottom: 2.2rem;
+            margin-bottom: 2.5rem;
         }
 
         .badge {
-            background: rgba(30, 60, 100, 0.3);
-            border: 1px solid rgba(100, 200, 255, 0.12);
+            background: rgba(15, 25, 40, 0.4);
+            border: 1px solid rgba(52, 152, 219, 0.06);
             border-radius: 60px;
             padding: 0.5rem 1.8rem;
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 0.95rem;
-            color: #bde;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            border-color: rgba(52, 152, 219, 0.15);
+            background: rgba(15, 25, 40, 0.6);
+            transform: translateY(-2px);
         }
 
         .badge .icon {
-            font-size: 1.4rem;
-            color: #6cf;
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .badge:hover .icon {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .badge strong {
-            color: #fff;
+            color: var(--text);
+            font-weight: 700;
         }
 
+        /* Main Title */
         .title-area {
-            margin: 1.5rem 0 1rem;
+            margin: 1.8rem 0 1.2rem;
+            position: relative;
         }
 
         .title-area .main-title {
-            font-size: 3rem;
+            font-size: 3.4rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #fca, #f8a, #c8f);
+            background: linear-gradient(135deg, #f0b27a, #ec7063, #e74c3c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.2;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title-area .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), var(--blue), var(--red));
+            border-radius: 10px;
+            opacity: 0.3;
         }
 
         .title-area .sub-title {
-            font-size: 1.2rem;
-            color: #8ac;
-            margin-top: 0.3rem;
-            background: rgba(100, 200, 255, 0.05);
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            background: rgba(52, 152, 219, 0.03);
             display: inline-block;
             padding: 0.2rem 2rem;
             border-radius: 60px;
-            border: 1px solid rgba(100, 200, 255, 0.08);
+            border: 1px solid rgba(52, 152, 219, 0.04);
+            font-weight: 300;
         }
 
-        /* ===== GAME CATEGORIES ===== */
+        /* ============================================================
+                   GAME CATEGORIES
+                ============================================================ */
         .game-categories {
-            margin: 2.5rem 0;
+            margin: 2.8rem 0 2rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
             gap: 1.5rem;
         }
 
         .game-card {
-            background: rgba(20, 40, 70, 0.3);
-            border: 1px solid rgba(100, 200, 255, 0.08);
+            background: rgba(15, 25, 40, 0.3);
+            border: 1px solid rgba(52, 152, 219, 0.04);
             border-radius: 24px;
-            padding: 1.8rem 1.2rem;
-            transition: all 0.3s ease;
+            padding: 2rem 1.4rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.02), rgba(52, 152, 219, 0.02), rgba(231, 76, 60, 0.02));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
         }
 
         .game-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(100, 200, 255, 0.3);
-            background: rgba(30, 60, 100, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(52, 152, 219, 0.12);
+            background: rgba(20, 35, 55, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
         }
 
         .game-card .game-icon {
-            font-size: 3rem;
+            font-size: 3.2rem;
             margin-bottom: 0.8rem;
             display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.15) rotate(-5deg);
         }
 
         .game-card h3 {
             font-size: 1.1rem;
-            color: #fff;
+            color: var(--text);
+            font-weight: 700;
             margin-bottom: 0.3rem;
         }
 
         .game-card p {
-            font-size: 0.85rem;
-            color: #8ab;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 300;
         }
 
         .game-card .game-tag {
             display: inline-block;
-            margin-top: 0.8rem;
-            padding: 0.2rem 1rem;
+            margin-top: 1rem;
+            padding: 0.2rem 1.2rem;
             border-radius: 60px;
-            font-size: 0.7rem;
-            background: rgba(100, 200, 255, 0.1);
-            color: #6cf;
-            border: 1px solid rgba(100, 200, 255, 0.1);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
 
-        /* ===== TOURNAMENTS PAGE ===== */
+        .game-card .tag-green {
+            background: rgba(46, 204, 113, 0.08);
+            color: var(--green);
+            border: 1px solid rgba(46, 204, 113, 0.08);
+        }
+
+        .game-card .tag-blue {
+            background: rgba(52, 152, 219, 0.08);
+            color: var(--blue);
+            border: 1px solid rgba(52, 152, 219, 0.08);
+        }
+
+        .game-card .tag-red {
+            background: rgba(231, 76, 60, 0.08);
+            color: var(--red);
+            border: 1px solid rgba(231, 76, 60, 0.08);
+        }
+
+        .game-card .tag-gold {
+            background: rgba(241, 196, 15, 0.08);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.08);
+        }
+
+        .game-card:hover .game-tag {
+            transform: scale(1.05);
+        }
+
+        /* ============================================================
+                   TOURNAMENTS PAGE
+                ============================================================ */
         .page-title {
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             font-weight: 900;
             text-align: center;
-            background: linear-gradient(135deg, #8cf, #6af, #c8f);
+            background: linear-gradient(135deg, #58d68d, #5dade2, #ec7063);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
         }
 
         .tournaments-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.8rem;
         }
 
         .tournament-card {
-            background: rgba(20, 40, 70, 0.3);
-            border: 1px solid rgba(100, 200, 255, 0.1);
+            background: rgba(15, 25, 40, 0.3);
+            border: 1px solid rgba(52, 152, 219, 0.04);
             border-radius: 24px;
-            padding: 2rem 1.5rem;
+            padding: 2.2rem 1.8rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tournament-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 0 0 10px 10px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .tournament-card:hover::before {
+            opacity: 1;
+        }
+
+        .tournament-card.active-card::before {
+            background: linear-gradient(90deg, var(--green), #58d68d);
+            opacity: 0.6;
+        }
+
+        .tournament-card.upcoming-card::before {
+            background: linear-gradient(90deg, var(--blue), #5dade2);
+            opacity: 0.6;
+        }
+
+        .tournament-card.ended-card::before {
+            background: linear-gradient(90deg, var(--red), #ec7063);
+            opacity: 0.6;
         }
 
         .tournament-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(100, 200, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            border-color: rgba(52, 152, 219, 0.1);
+            background: rgba(20, 35, 55, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
         }
 
         .tournament-card .t-icon {
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             margin-bottom: 0.8rem;
             display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .tournament-card:hover .t-icon {
+            transform: scale(1.1) rotate(-8deg);
         }
 
         .tournament-card h3 {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+            color: var(--text);
+            font-weight: 700;
+            margin-bottom: 0.4rem;
         }
 
         .tournament-card p {
-            color: #8ab;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 300;
+            margin-bottom: 1.2rem;
         }
 
         .t-status {
             display: inline-block;
-            padding: 0.3rem 1.2rem;
+            padding: 0.3rem 1.4rem;
             border-radius: 60px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
 
-        .t-status.active {
-            background: rgba(0, 200, 100, 0.2);
-            color: #0c8;
-            border: 1px solid rgba(0, 200, 100, 0.3);
+        .tournament-card:hover .t-status {
+            transform: scale(1.05);
         }
 
-        .t-status.upcoming {
-            background: rgba(200, 200, 0, 0.2);
-            color: #cc8;
-            border: 1px solid rgba(200, 200, 0, 0.3);
+        .t-status.active-status {
+            background: rgba(46, 204, 113, 0.08);
+            color: var(--green);
+            border: 1px solid rgba(46, 204, 113, 0.1);
         }
 
-        .t-status.ended {
-            background: rgba(200, 0, 0, 0.2);
-            color: #c66;
-            border: 1px solid rgba(200, 0, 0, 0.3);
+        .t-status.upcoming-status {
+            background: rgba(52, 152, 219, 0.08);
+            color: var(--blue);
+            border: 1px solid rgba(52, 152, 219, 0.1);
         }
 
-        /* ===== ABOUT PAGE ===== */
+        .t-status.ended-status {
+            background: rgba(231, 76, 60, 0.08);
+            color: var(--red);
+            border: 1px solid rgba(231, 76, 60, 0.1);
+        }
+
+        /* ============================================================
+                   ABOUT PAGE
+                ============================================================ */
         .about-content {
             text-align: right;
             line-height: 2;
         }
 
+        .about-content .about-intro {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            padding-right: 1rem;
+            border-right: 3px solid var(--blue);
+            opacity: 0.9;
+        }
+
         .about-content p {
             margin-bottom: 1.2rem;
-            color: #bcd;
-            font-size: 1.05rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 300;
         }
 
         .about-content .highlight {
-            color: #6cf;
+            color: var(--text);
+            font-weight: 700;
+            padding: 0 4px;
+        }
+
+        .about-content .highlight-green {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .about-content .highlight-blue {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .about-content .highlight-red {
+            color: var(--red);
             font-weight: 700;
         }
 
         .about-features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 1.5rem;
-            margin: 2rem 0;
+            margin: 2.2rem 0 2rem;
         }
 
         .about-feature {
-            background: rgba(20, 40, 70, 0.2);
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(100, 200, 255, 0.05);
+            background: rgba(15, 25, 40, 0.2);
+            padding: 1.6rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(52, 152, 219, 0.04);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .about-feature:hover {
+            background: rgba(20, 35, 55, 0.3);
+            border-color: rgba(52, 152, 219, 0.08);
+            transform: translateY(-4px);
         }
 
         .about-feature .f-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             display: block;
             margin-bottom: 0.5rem;
+            transition: transform 0.4s ease;
+        }
+
+        .about-feature:hover .f-icon {
+            transform: scale(1.1) rotate(-5deg);
         }
 
         .about-feature h4 {
-            color: #fff;
+            color: var(--text);
             font-size: 0.95rem;
+            font-weight: 700;
         }
 
         .about-feature p {
-            font-size: 0.8rem;
-            color: #8ab;
-            margin-top: 0.3rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            font-weight: 300;
         }
 
-        /* ===== FOOTER ===== */
+        .about-quote {
+            background: rgba(52, 152, 219, 0.03);
+            border: 1px solid rgba(52, 152, 219, 0.04);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            font-style: italic;
+            color: var(--text-muted);
+            font-weight: 300;
+            font-size: 1rem;
+        }
+
+        .about-quote strong {
+            color: var(--text);
+            font-style: normal;
+        }
+
+        /* ============================================================
+                   INFO BOX
+                ============================================================ */
+        .info-box {
+            margin: 1.8rem 0 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(52, 152, 219, 0.02);
+            padding: 0.8rem 1.2rem;
+            border-radius: 18px;
+            border: 1px solid rgba(52, 152, 219, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-weight: 300;
+        }
+
+        .info-box .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin: 0 4px;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        .info-box .dot-green {
+            background: var(--green);
+        }
+        .info-box .dot-blue {
+            background: var(--blue);
+            animation-delay: 0.3s;
+        }
+        .info-box .dot-red {
+            background: var(--red);
+            animation-delay: 0.6s;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ============================================================
+                   FOOTER
+                ============================================================ */
         .footer {
-            margin-top: 2.5rem;
+            margin-top: 2.8rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            border-top: 1px solid rgba(100, 200, 255, 0.06);
-            padding-top: 1.8rem;
+            border-top: 1px solid rgba(52, 152, 219, 0.04);
+            padding-top: 2rem;
         }
 
         .footer .footer-row {
             display: flex;
             justify-content: center;
-            gap: 24px;
+            gap: 28px;
             flex-wrap: wrap;
-            font-size: 0.85rem;
-            color: #567;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 300;
         }
 
         .footer .footer-row span {
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .footer-row span:hover {
+            color: var(--text);
         }
 
         .footer .footer-row .icon {
-            font-size: 1.1rem;
-            color: #6af;
+            font-size: 1rem;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer .footer-row span:hover .icon {
+            opacity: 1;
         }
 
         .footer .credit {
-            font-size: 0.8rem;
-            color: #445;
+            font-size: 0.78rem;
+            color: rgba(127, 140, 155, 0.4);
             letter-spacing: 0.5px;
-            padding: 0.5rem 1.5rem;
-            background: rgba(100, 200, 255, 0.03);
+            padding: 0.4rem 1.8rem;
+            background: rgba(52, 152, 219, 0.02);
             border-radius: 60px;
-            border: 1px solid rgba(100, 200, 255, 0.04);
+            border: 1px solid rgba(52, 152, 219, 0.02);
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+
+        .footer .credit:hover {
+            color: var(--text-muted);
+            border-color: rgba(52, 152, 219, 0.04);
         }
 
         .footer .credit .heart {
-            color: #6cf;
+            color: var(--red);
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
+        .footer .credit:hover .heart {
+            opacity: 1;
+        }
+
+        .footer .credit .heart-green {
+            color: var(--green);
+            opacity: 0.6;
+        }
+
+        .footer .credit:hover .heart-green {
+            opacity: 1;
+        }
+
+        /* ============================================================
+                   RESPONSIVE
+                ============================================================ */
+        @media (max-width: 992px) {
             .page {
-                padding: 2rem 1.5rem;
-                border-radius: 32px;
+                padding: 2.5rem 2.5rem;
             }
             
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .title-area .main-title {
+            .home-header h1 {
                 font-size: 2.2rem;
             }
             
-            .nav-menu {
-                gap: 1rem;
-            }
-            
-            .nav-menu a {
-                font-size: 0.8rem;
-            }
-            
-            .game-categories {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 1rem;
-            }
-            
-            .tournaments-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .badge {
-                padding: 0.3rem 1rem;
-                font-size: 0.8rem;
-            }
-            
-            .atom {
-                opacity: 0.05;
-            }
-            
-            .atom-0 { width: 120px; height: 120px; }
-            .atom-2 { width: 160px; height: 160px; }
-            .atom-6 { width: 200px; height: 200px; }
-        }
-
-        @media (max-width: 480px) {
-            .main-nav {
-                padding: 0 1rem;
-            }
-            
-            .nav-container {
-                height: 60px;
-            }
-            
-            .nav-brand {
-                font-size: 1.2rem;
-            }
-            
-            .brand-icon {
-                font-size: 1.5rem;
-            }
-            
-            .nav-menu {
-                gap: 0.5rem;
-            }
-            
-            .nav-menu a {
-                font-size: 0.7rem;
-                padding: 0.3rem 0;
-            }
-            
-            .nav-menu .nav-icon {
-                font-size: 1rem;
-            }
-            
-            .page {
-                padding: 1.5rem 1rem;
-                border-radius: 24px;
-            }
-            
-            .header h1 {
-                font-size: 1.4rem;
-            }
-            
-            .header-icon {
-                font-size: 2rem;
-            }
-            
             .title-area .main-title {
-                font-size: 1.8rem;
-            }
-            
-            .game-categories {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
-            }
-            
-            .game-card {
-                padding: 1.2rem 0.8rem;
-            }
-            
-            .game-card .game-icon {
-                font-size: 2.2rem;
-            }
-            
-            .game-card h3 {
-                font-size: 0.9rem;
-            }
-            
-            .game-card p {
-                font-size: 0.75rem;
-            }
-            
-            .about-features {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer .footer-row {
-                gap: 12px;
-                font-size: 0.75rem;
-                flex-direction: column;
-                align-items: center;
+                font-size: 2.8rem;
             }
         }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 4px;
-            background: #0a0e17;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2a4a7a;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3a5a8a;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- ===== FLOATING ATOMS ===== -->
-    <div class="atoms-bg">
-        <div class="atom atom-0"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-1"><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-2"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-3"><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-4"><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-5"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-6"><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-7"><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-8"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-9"><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-10"><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-        <div class="atom atom-11"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
-    </div>
-
-    <!-- ===== NAVIGATION ===== -->
-    <nav class="main-nav">
-        <div class="nav-container">
-            <div class="nav-brand" onclick="navigateTo('home')">
-                <span class="brand-icon">&#9883;</span>
-                <span class="brand-text">اتم</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a onclick="navigateTo('home')" class="active" data-page="home"><span class="nav-icon">&#9654;</span> خانه</a></li>
-                <li><a onclick="navigateTo('tournaments')" data-page="tournaments"><span class="nav-icon">&#9889;</span> مسابقات</a></li>
-                <li><a onclick="navigateTo('about')" data-page="about"><span class="nav-icon">&#9733;</span> درباره</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- ===== MAIN CONTENT ===== -->
-    <main class="main-content">
-
-        <!-- ===== HOME PAGE ===== -->
-        <div id="page-home" class="page active">
-            <div class="header">
-                <span class="header-icon">&#9883;</span>
-                <h1>مدرسه مفید</h1>
-                <span class="sub">مسابقه اتم</span>
-            </div>
-
-            <div class="badge-row">
-                <div class="badge">
-                    <span class="icon">&#9889;</span>
-                    <span>استاد تمام <strong>مهارت‌ها</strong></span>
-                </div>
-                <div class="badge">
-                    <span class="icon">&#9733;</span>
-                    <span>دوره <strong>گیمینگ</strong></span>
-                </div>
-                <div class="badge">
-                    <span class="icon">&#9883;</span>
-                    <span>مدرسه مفید <strong>یادگار امام</strong></span>
-                </div>
-            </div>
-
-            <div class="title-area">
-                <div class="main-title">اتم</div>
-                <div class="sub-title">مسابقه بزرگ</div>
-            </div>
-
-            <div class="game-categories">
-                <div class="game-card">
-                    <span class="game-icon">&#9889;</span>
-                    <h3>ماینکرفت</h3>
-                    <p>بازی‌های خلاقانه و ساختنی</p>
-                    <span class="game-tag">&#9654; سی اس</span>
-                </div>
-                
-                <div class="game-card">
-                    <span class="game-icon">&#9883;</span>
-                    <h3>بازی‌های فیزیک</h3>
-                    <p>چالش‌های علمی و حرکتی</p>
-                    <span class="game-tag">&#9654; جدید</span>
-                </div>
-                
-                <div class="game-card">
-                    <span class="game-icon">&#9733;</span>
-                    <h3>بردگیم</h3>
-                    <p>بازی‌های فکری و گروهی</p>
-                    <span class="game-tag">&#9654; محبوب</span>
-                </div>
-                
-                <div class="game-card">
-                    <span class="game-icon">&#9679;</span>
-                    <h3>بازی‌های متنوع</h3>
-                    <p>تجربه‌های جدید هر هفته</p>
-                    <span class="game-tag">&#9654; به زودی</span>
-                </div>
-            </div>
-
-            <div style="margin: 1.5rem 0; color: #678; font-size: 0.9rem; background: rgba(100,200,255,0.03); padding: 0.8rem; border-radius: 16px; border: 1px solid rgba(100,200,255,0.04);">
-                <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <span style="font-size: 1.2rem;">&#9679;</span>
-                    برای شرکت در مسابقات، به مدرسه مفید مراجعه کنید
-                    <span style="font-size: 1.2rem;">&#9679;</span>
-                </span>
-            </div>
-
-            <div class="footer">
-                <div class="footer-row">
-                    <span><span class="icon">&#9883;</span> اتم ۱۴۰۵</span>
-                    <span><span class="icon">&#9679;</span> مدرسه مفید یادگار امام</span>
-                    <span><span class="icon">&#9733;</span> استاد تمام مهارت‌ها</span>
-                </div>
-                <div class="credit">
-                    ساخته شده توسط <span class="heart">&#9883;</span> اونیکس ماین
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== TOURNAMENTS PAGE ===== -->
-        <div id="page-tournaments" class="page">
-            <h1 class="page-title">مسابقات اتم</h1>
-            
-            <div class="tournaments-grid">
-                <div class="tournament-card">
-                    <span class="t-icon">&#9889;</span>
-                    <h3>مسابقه ماینکرفت</h3>
-                    <p>ساخت و ساز خلاقانه در دنیای ماینکرفت</p>
-                    <span class="t-status active">در حال برگزاری</span>
-                </div>
-                
-                <div class="tournament-card">
-                    <span class="t-icon">&#9883;</span>
-                    <h3>چالش فیزیک</h3>
-                    <p>مسابقات علمی و آزمایشگاهی</p>
-                    <span class="t-status active">در حال برگزاری</span>
-                </div>
-                
-                <div class="tournament-card">
-                    <span class="t-icon">&#9733;</span>
-                    <h3>بردگیم بزرگ</h3>
-                    <p>رقابت در بازی‌های فکری گروهی</p>
-                    <span class="t-status upcoming">به زودی</span>
-                </div>
-                
-                <div class="tournament-card">
-                    <span class="t-icon">&#9679;</span>
-                    <h3>مسابقه سی اس</h3>
-                    <p>رقابت در بازی کامپیوتری سی اس</p>
-                    <span class="t-status ended">پایان یافته</span>
-                </div>
-            </div>
-
-            <div class="footer">
-                <div class="footer-row">
-                    <span><span class="icon">&#9883;</span> اتم ۱۴۰۵</span>
-                    <span><span class="icon">&#9679;</span> مدرسه مفید یادگار امام</span>
-                    <span><span class="icon">&#9733;</span> استاد تمام مهارت‌ها</span>
-                </div>
-                <div class="credit">
-                    ساخته شده توسط <span class="heart">&#9883;</span> اونیکس ماین
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== ABOUT PAGE ===== -->
-        <div id="page-about" class="page">
-            <h1 class="page-title">درباره اتم</h1>
-            
-            <div class="about-content">
-                <p>
-                    <span class="highlight">اتم</span> یک مسابقه علمی و مهارتی است که در 
-                    <span class="highlight">مدرسه مفید یادگار امام</span> برگزار می‌شود.
-                </p>
-                <p>
-                    هدف از برگزاری این مسابقات، کشف استعدادهای برتر در زمینه‌های مختلف 
-                    از جمله بازی‌های کامپیوتری، علوم فیزیک و بازی‌های فکری است.
-                </p>
-                
-                <div class="about-features">
-                    <div class="about-feature">
-                        <span class="f-icon">&#9889;</span>
-                        <h4>ماینکرفت</h4>
-                        <p>بازی‌های ساختنی و خلاقانه</p>
-                    </div>
-                    <div class="about-feature">
-                        <span class="f-icon">&#9883;</span>
-                        <h4>بازی‌های فیزیک</h4>
-                        <p>چالش‌های علمی و حرکتی</p>
-                    </div>
-                    <div class="about-feature">
-                        <span class="f-icon">&#9733;</span>
-                        <h4>بردگیم</h4>
-                        <p>بازی‌های فکری و گروهی</p>
-                    </div>
-                    <div class="about-feature">
-                        <span class="f-icon">&#9679;</span>
-                        <h4>سی اس</h4>
-                        <p>رقابت‌های کامپیوتری</p>
-                    </div>
-                </div>
-                
-                <p>
-                    <span class="highlight">استاد تمام مهارت‌ها</span> عنوانی است که به برترین 
-                    شرکت‌کننده در پایان هر دوره تعلق می‌گیرد.
-                </p>
-            </div>
-
-            <div class="footer">
-                <div class="footer-row">
-                    <span><span class="icon">&#9883;</span> اتم ۱۴۰۵</span>
-                    <span><span class="icon">&#9679;</span> مدرسه مفید یادگار امام</span>
-                    <span><span class="icon">&#9733;</span> استاد تمام مهارت‌ها</span>
-                </div>
-                <div class="credit">
-                    ساخته شده توسط <span class="heart">&#9883;</span> اونیکس ماین
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- ===== JAVASCRIPT ===== -->
-    <script>
-        // ===== SPA Navigation =====
-        function navigateTo(page) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('active');
-            });
-            
-            // Show target page
-            const targetPage = document.getElementById('page-' + page);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-            
-            // Update nav links
-            document.querySelectorAll('.nav-menu a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-page') === page) {
-                    link.classList.add('active');
-                }
-            });
-            
-            // Update URL without reload
-            if (page === 'home') {
-                history.pushState({ page: 'home' }, '', '/');
-            } else {
-                history.pushState({ page: page }, '', '/' + page);
-            }
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ===== Handle Back/Forward browser buttons =====
-        window.addEventListener('popstate', function(event) {
-            if (event.state && event.state.page) {
-                navigateTo(event.state.page);
-            } else {
-                navigateTo('home');
-            }
-        });
-
-        // ===== Handle initial load =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check URL for page
-            const path = window.location.pathname;
-            if (path === '/' || path === '') {
-                navigateTo('home');
-            } else {
-                const page = path.replace('/', '');
-                if (page === 'home' || page === 'tournaments' || page === 'about') {
-                    navigateTo(page);
-                } else {
-                    navigateTo('home');
-                }
-            }
-        });
-
-        // ===== Smooth scroll for internal links =====
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // ===== Parallax effect on atoms =====
-        document.addEventListener('mousemove', (e) => {
-            const atoms = document.querySelectorAll('.atom');
-            const x = (e.clientX / window.innerWidth - 0.5) * 20;
-            const y = (e.clientY / window.innerHeight - 0.5) * 20;
-            
-            atoms.forEach((atom, index) => {
-                const speed = 0.02 + (index * 0.005);
-                atom.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-            });
-        });
-
-        // ===== Hover effect on game cards =====
-        document.querySelectorAll('.game-card, .tournament-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-            });
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // ===== Keyboard navigation =====
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-                const pages = ['home', 'tournaments', 'about'];
-                const current = document.querySelector('.page.active');
-                let currentIndex = 0;
-                pages.forEach((p, i) => {
-                    if (document.getElementById('page-' + p).classList.contains('active')) {
-                        currentIndex = i;
-                    }
-                });
-                
-                if (e.key === 'ArrowRight') {
-                    currentIndex = (currentIndex + 1) % pages.length;
-                } else {
-                    currentIndex = (currentIndex - 1 + pages.length) % pages.length;
-                }
-                navigateTo(pages[currentIndex]);
-            }
-        });
-    </script>
-
-</body>
-</html>
+        @media (max-width
