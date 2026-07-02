@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسابقه اتم - مدرسه مفید</title>
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: #0a0e17;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #e0f0ff;
+            position: relative;
+        }
+
+        /* Floating Atoms Background */
+        .atoms-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .atom {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: floatAtom linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: rgba(100, 200, 255, 0.2);
+            user-select: none;
+        }
+
+        .atom .nucleus {
+            width: 30%;
+            height: 30%;
+            background: radial-gradient(circle, #6cf, #1a3a5a);
+            border-radius: 50%;
+            box-shadow: 0 0 30px #4af;
+        }
+
+        .atom .orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(100, 200, 255, 0.1);
+            border-radius: 50%;
+            animation: spinOrbit 8s linear infinite;
+        }
+
+        .atom .orbit:nth-child(2) {
+            width: 70%;
+            height: 70%;
+            animation-duration: 12s;
+            border-color: rgba(200, 100, 255, 0.1);
+        }
+
+        .atom .orbit:nth-child(3) {
+            width: 40%;
+            height: 40%;
+            animation-duration: 6s;
+            border-color: rgba(100, 255, 200, 0.1);
+        }
+
+        @keyframes floatAtom {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(40px, -60px) rotate(90deg); }
+            50% { transform: translate(-30px, 80px) rotate(180deg); }
+            75% { transform: translate(50px, 40px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        @keyframes spinOrbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Atom variations */
+        .atom:nth-child(1) { width: 200px; height: 200px; top: 5%; left: 2%; animation-duration: 22s; }
+        .atom:nth-child(2) { width: 140px; height: 140px; bottom: 10%; right: 3%; animation-duration: 28s; animation-delay: -5s; }
+        .atom:nth-child(3) { width: 250px; height: 250px; top: 40%; left: 70%; animation-duration: 30s; animation-delay: -10s; }
+        .atom:nth-child(4) { width: 100px; height: 100px; top: 70%; left: 15%; animation-duration: 20s; animation-delay: -3s; }
+        .atom:nth-child(5) { width: 180px; height: 180px; top: 15%; left: 45%; animation-duration: 26s; animation-delay: -7s; }
+        .atom:nth-child(6) { width: 120px; height: 120px; bottom: 25%; right: 25%; animation-duration: 24s; animation-delay: -12s; }
+        .atom:nth-child(7) { width: 300px; height: 300px; top: 50%; left: -5%; animation-duration: 35s; animation-delay: -2s; opacity: 0.08; }
+        .atom:nth-child(8) { width: 160px; height: 160px; bottom: 5%; right: 50%; animation-duration: 18s; animation-delay: -8s; }
+
+        /* Main Card */
+        .game-container {
+            position: relative;
+            z-index: 1;
+            background: rgba(10, 20, 35, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 48px;
+            padding: 3rem 4rem;
+            max-width: 780px;
+            width: 90%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(50, 150, 255, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .game-container:hover {
+            border-color: rgba(100, 200, 255, 0.4);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 80px rgba(50, 150, 255, 0.1);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .header-icon {
+            font-size: 2.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.3));
+            color: #8cf;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #8cf, #6af, #c8f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        .header .sub {
+            font-size: 1rem;
+            color: #7aa;
+            background: rgba(100, 200, 255, 0.08);
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(100, 200, 255, 0.1);
+            -webkit-text-fill-color: #7aa;
+            font-weight: 400;
+        }
+
+        /* Badge */
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 2.2rem;
+        }
+
+        .badge {
+            background: rgba(30, 60, 100, 0.3);
+            border: 1px solid rgba(100, 200, 255, 0.12);
+            border-radius: 60px;
+            padding: 0.5rem 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #bde;
+            backdrop-filter: blur(4px);
+        }
+
+        .badge .icon {
+            font-size: 1.4rem;
+            color: #6cf;
+        }
+
+        .badge strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* Title */
+        .title-area {
+            margin: 1.5rem 0 1rem;
+        }
+
+        .title-area .main-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fca, #f8a, #c8f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .title-area .sub-title {
+            font-size: 1.2rem;
+            color: #8ac;
+            margin-top: 0.3rem;
+            letter-spacing: 1px;
+            font-weight: 400;
+            background: rgba(100, 200, 255, 0.05);
+            display: inline-block;
+            padding: 0.2rem 2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(100, 200, 255, 0.08);
+        }
+
+        /* Description */
+        .desc {
+            margin: 2rem 0 2.5rem;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #bcd;
+            background: rgba(20, 40, 70, 0.2);
+            padding: 1.2rem 1.8rem;
+            border-radius: 32px;
+            border: 1px solid rgba(100, 200, 255, 0.06);
+        }
+
+        .desc .icon-inline {
+            font-size: 1.3rem;
+            margin: 0 4px;
+            color: #6cf;
+        }
+
+        /* Button */
+        .btn-start {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(135deg, #1a4a7a, #0f2a4a);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            color: #fff;
+            padding: 1rem 3.2rem;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0, 50, 150, 0.2);
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+            text-decoration: none;
+        }
+
+        .btn-start .icon {
+            font-size: 1.8rem;
+            color: #8cf;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-start:hover {
+            background: linear-gradient(135deg, #2a5a8a, #1a3a5a);
+            border-color: rgba(100, 200, 255, 0.6);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 80, 200, 0.3);
+        }
+
+        .btn-start:hover .icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .btn-start:active {
+            transform: scale(0.96);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: #567;
+            border-top: 1px solid rgba(100, 200, 255, 0.06);
+            padding-top: 1.8rem;
+        }
+
+        .footer span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer .icon {
+            font-size: 1.1rem;
+            color: #6af;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .game-container {
+                padding: 2rem 1.5rem;
+                border-radius: 32px;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .title-area .main-title {
+                font-size: 2rem;
+            }
+            .badge {
+                padding: 0.4rem 1.2rem;
+                font-size: 0.8rem;
+            }
+            .btn-start {
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+            }
+            .desc {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+            .atom {
+                opacity: 0.06;
+            }
+            .atom:nth-child(1) { width: 120px; height: 120px; }
+            .atom:nth-child(3) { width: 160px; height: 160px; }
+        }
+
+        @media (max-width: 400px) {
+            .header {
+                gap: 8px;
+            }
+            .header-icon {
+                font-size: 2rem;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .title-area .main-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Scrollbar style (optional) */
+        ::-webkit-scrollbar {
+            width: 4px;
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a4a7a;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Atoms Background -->
+    <div class="atoms-bg">
+        <div class="atom"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
+        <div class="atom"><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
+        <div class="atom"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
+        <div class="atom"><div class="orbit"></div><div class="nucleus"></div></div>
+        <div class="atom"><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
+        <div class="atom"><div class="orbit"></div><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
+        <div class="atom"><div class="orbit"></div><div class="nucleus"></div></div>
+        <div class="atom"><div class="orbit"></div><div class="orbit"></div><div class="nucleus"></div></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="game-container">
+        <!-- Header -->
+        <div class="header">
+            <span class="header-icon">&#9883;</span> <!-- Atom icon -->
+            <h1>مدرسه مفید</h1>
+            <span class="sub">مسابقه اتم</span>
+        </div>
+
+        <!-- Badges -->
+        <div class="badge-row">
+            <div class="badge">
+                <span class="icon">&#9889;</span> <!-- Lightning -->
+                <span>استاد تمام <strong>مهارت‌ها</strong></span>
+            </div>
+            <div class="badge">
+                <span class="icon">&#9733;</span> <!-- Star -->
+                <span>دوره <strong>گیمینگ</strong></span>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <div class="title-area">
+            <div class="main-title">اتم</div>
+            <div class="sub-title">مسابقه بزرگ</div>
+        </div>
+
+        <!-- Description -->
+        <div class="desc">
+            <span class="icon-inline">&#9883;</span> 
+            با <strong>اتم</strong> به دنیای چالش‌های علمی و مهارتی خوش آمدید.
+            <br>
+            <span class="icon-inline">&#9889;</span> 
+            هر هفته با <strong>مسابقات جدید</strong>، مهارت‌های خود را محک بزنید.
+            <br>
+            <span class="icon-inline">&#9733;</span> 
+            جایزه ویژه برای <strong>استاد تمام مهارت‌ها</strong> در پایان ترم.
+        </div>
+
+        <!-- Start Button -->
+        <button class="btn-start" onclick="alert('مسابقه اتم آغاز شد!  آماده‌اید؟')">
+            <span class="icon">&#9654;</span> <!-- Play -->
+            شروع مسابقه
+        </button>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span><span class="icon">&#9883;</span> اتم ۱۴۰۵</span>
+            <span><span class="icon">&#9679;</span> مدرسه مفید</span>
+            <span><span class="icon">&#9733;</span> استاد تمام مهارت‌ها</span>
+        </div>
+    </div>
+
+    <!-- Optional PHP small logic (just for demonstration) -->
+    <?php
+        // This is a PHP block that can be used for dynamic content
+        // For example, we could set a greeting or a counter.
+        // But the page is mostly static with a gaming/atom theme.
+        // We just add a tiny dynamic tag for demonstration.
+        $version = "1.0.0";
+        // You could also handle form submissions or load data from DB here.
+    ?>
+    <!-- hidden PHP version tag (just to show PHP is active) -->
+    <div style="display: none;">PHP v<?php echo $version; ?></div>
+
+    <script>
+        // Optional: add some interactive subtle effect
+        document.querySelector('.game-container').addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 40;
+            const rotateY = (centerX - x) / 40;
+            this.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        document.querySelector('.game-container').addEventListener('mouseleave', function() {
+            this.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+        });
+    </script>
+
+</body>
+</html>
